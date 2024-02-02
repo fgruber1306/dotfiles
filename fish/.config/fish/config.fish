@@ -6,3 +6,4 @@ if status is-interactive
     alias vi nvim
     fish_default_key_bindings
 end
+starship init fish | source
