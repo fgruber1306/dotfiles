@@ -19,7 +19,7 @@ return {
     { "<leader>sa", mode = { "n" }, false },
     { "<leader>sc", mode = { "n" }, false },
     { "<leader>sH", mode = { "n" }, false },
-    { "<leader>so", mode = { "n" }, false },
+    { "<leadec>so", mode = { "n" }, false },
     { "<leader>so", mode = { "n" }, false },
     { "<leader>sw", mode = { "n" }, false },
     { "<leader>sW", mode = { "n" }, false },
@@ -157,7 +157,6 @@ return {
       ["/"] = {
         function()
           require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-            winblend = 10,
             previewer = false,
           }))
         end,
