@@ -12,7 +12,7 @@ local make_entry = require("telescope.make_entry")
 local jump_to_location = vim.lsp.util.jump_to_location
 
 local mapping_actions = {
-  ["<C-x>"] = actions.file_split,
+  ["<C-s>"] = actions.file_split,
   ["<C-v>"] = actions.file_vsplit,
   ["<C-t>"] = actions.file_tab,
 }
@@ -53,7 +53,7 @@ end
 local function attach_location_mappings(offset_encoding)
   return function(prompt_bufnr, map)
     local modes = { "i", "n" }
-    local keys = { "<CR>", "<C-x>", "<C-v", "<C-t>" }
+    local keys = { "<CR>", "<C-s>", "<C-v>", "<C-t>" }
 
     for _, mode in pairs(modes) do
       for _, key in pairs(keys) do
@@ -150,7 +150,7 @@ function M.buffers()
   require("telescope.builtin").buffers({
     ignore_current_buffer = true,
     attach_mappings = function(prompt_bufnr, map)
-      map({ "n", "i" }, "<C-b>", function()
+      map({ "n", "i" }, "<C-x>", function()
         actions.delete_buffer(prompt_bufnr)
       end)
       return true
@@ -198,7 +198,7 @@ function M.ext_picker(opts, fn)
         pickers
           .new(
             opts,
-            vim.tbl_extend("force", require("telescope.themes").get_dropdown({ previewer = false, winblend = 10 }), {
+            vim.tbl_extend("force", require("telescope.themes").get_dropdown({ previewer = false, winblend = 0 }), {
               prompt_title = "Select a Filetype",
               finder = finders.new_table({ results = data, entry_maker = make_entry.gen_from_file(opts) }),
               sorter = conf.file_sorter(opts),
