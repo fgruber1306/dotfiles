@@ -3,6 +3,7 @@ local opts = { noremap = true, silent = true }
 local which_key = require("which-key")
 
 -- Drop standard LazyVim keymaps
+vim.api.nvim_set_keymap("n", "<C-z>", "<Nop>", { noremap = true, silent = true }) -- We don't stan this one
 keymap.del("n", "<S-h>")
 keymap.del("n", "<S-l>")
 keymap.del("n", "[b")
