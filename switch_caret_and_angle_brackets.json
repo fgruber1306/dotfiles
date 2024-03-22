@@ -1,0 +1,46 @@
+{
+    "description": "Change Less Than to Caret",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "grave_accent_and_tilde",
+                "modifiers": {
+                    "mandatory": [],
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "non_us_backslash",
+                    "modifiers": []
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+},
+{
+    "description": "Change Caret to Less Than",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "non_us_backslash",
+                "modifiers": {
+                    "mandatory": [],
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "grave_accent_and_tilde",
+                    "modifiers": []
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
