@@ -12,11 +12,12 @@ config.window_background_opacity = 0.95
 config.dpi = 144.0
 config.enable_tab_bar = false
 config.font_size = 8.5
+config.window_decorations = "RESIZE"
 config.window_padding = {
-	left = 0,
-	right = 0,
-	top = 0,
-	bottom = 0,
+	left = 10,
+	right = 10,
+	top = 2,
+	bottom = 2,
 }
 
 return config
