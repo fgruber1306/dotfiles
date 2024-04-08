@@ -26,3 +26,8 @@ yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 
+# Borders
+borders active_color=0xff89dceb inactive_color=0xff313244 width=7.0 &
+
+# Add addidtional height due to sketchybar height
+yabai -m config external_bar all:32:0
