@@ -52,7 +52,6 @@ which_key.register({
   l = {
     name = "󰒲 Lazy",
     l = { "<cmd>Lazy<cr>", "󰒲 Open Lazy" },
-    g = { "<cmd>lazygit<cr>", " lazygit" },
   },
 }, { prefix = "<leader>" })
 
@@ -85,10 +84,10 @@ keymap.set({ "n" }, "N", "Nzzzv", { silent = true })
 -- keymap.set({ "n" }, "<C-j>", "<C-w>j")
 -- keymap.set({ "n" }, "<C-k>", "<C-w>k")
 -- keymap.set({ "n" }, "<C-l>", "<C-w>l")
-keymap.set({ "n" }, "<C-Up>", "<C-w>+")
-keymap.set({ "n" }, "<C-Down>", "<C-w>-")
-keymap.set({ "n" }, "<C-Left>", "<C-w><")
-keymap.set({ "n" }, "<C-Right>", "<C-w>>")
+keymap.set({ "n" }, "<S-Up>", "<C-w>+")
+keymap.set({ "n" }, "<S-Down>", "<C-w>-")
+keymap.set({ "n" }, "<S-Left>", "<C-w><")
+keymap.set({ "n" }, "<S-Right>", "<C-w>>")
 keymap.set({ "n" }, "<C-s>", "<C-w>s")
 keymap.set({ "n" }, "<C-v>", "<C-w>v")
 
