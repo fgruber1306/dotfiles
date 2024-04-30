@@ -6,6 +6,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+vim.o.shell = "/bin/zsh"
+
 _G.mynvim = {}
 
 mynvim.user_terminals = {}
