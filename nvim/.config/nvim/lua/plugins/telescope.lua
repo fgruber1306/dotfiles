@@ -1,3 +1,5 @@
+-- telescope.lua
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
