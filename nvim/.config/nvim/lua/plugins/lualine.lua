@@ -1,20 +1,18 @@
--- lualine.lua
-
 return {
   {
-    "nvim-lualine/lualine.nvim",
+    'nvim-lualine/lualine.nvim',
     dependencies = {
-      "f-person/git-blame.nvim",
+      'f-person/git-blame.nvim',
     },
-    event = "VeryLazy",
+    event = 'VeryLazy',
     opts = function(_, opts)
-      local gitblame = require("gitblame")
+      local gitblame = require 'gitblame'
 
       opts.options = {
         icons_enabled = true,
-        theme = "catppuccin",
-        component_separators = { left = " ", right = " " },
-        section_separators = { left = "", right = "" },
+        theme = 'catppuccin',
+        component_separators = { left = ' ', right = ' ' },
+        section_separators = { left = '', right = '' },
         always_divide_middle = true,
       }
 
@@ -31,12 +29,12 @@ return {
       }
 
       opts.sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = { "filename", require("utils.lualine").maximize_status },
-        lualine_x = { require("utils.lualine").get_lsps, "filetype" },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch' },
+        lualine_c = { 'filename', require('utils.lualine').maximize_status },
+        lualine_x = { require('utils.lualine').get_lsps, 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' },
       }
 
       return opts
