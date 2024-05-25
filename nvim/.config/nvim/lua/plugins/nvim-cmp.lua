@@ -1,9 +1,17 @@
 return {
-  -- Autocompletion
   'hrsh7th/nvim-cmp',
   dependencies = {
+		'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+
     -- Snippet Engine & its associated nvim-cmp source
-    'L3MON4D3/LuaSnip',
+    {
+      "L3MON4D3/LuaSnip",
+      -- follow latest release.
+      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      -- install jsregexp (optional!).
+      build = "make install_jsregexp",
+    },
     'saadparwaiz1/cmp_luasnip',
 
     -- Adds LSP completion capabilities
@@ -18,8 +26,6 @@ return {
             String = '',
           },
         }
-
-        vim.api.nvim_set_hl(0, 'CmpItemKindCopilot', { fg = '#6CC644' })
       end,
     },
 
@@ -27,49 +33,22 @@ return {
     'rafamadriz/friendly-snippets',
 
     'hrsh7th/cmp-nvim-lsp-signature-help',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
     'ray-x/cmp-treesitter',
-
-    {
-      'js-everts/cmp-tailwind-colors',
-      opts = {
-        enable_alpha = true,
-        format = function(itemColor)
-          return {
-            fg = itemColor,
-            bg = nil,
-            text = 'Color',
-          }
-        end,
-      },
-    },
   },
   config = function()
-    local cmp = require 'cmp'
-    local ls = require 'luasnip'
-    local lspkind = require 'lspkind'
+    local cmp = require("cmp")
+    local ls = require("luasnip")
+    local lspkind = require("lspkind")
 
+    -- Loads vscode style snippets from installed plugins (e.g. friendly-snippets)
+    require('luasnip.loaders.from_vscode').lazy_load()
+
+		-- Adjust border
     local border_opts = {
       border = 'single',
       winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
     }
-
-    local confirm_mapping = cmp.mapping {
-      i = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-          cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
-        else
-          fallback()
-        end
-      end,
-      s = cmp.mapping.confirm { select = false },
-      c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false },
-    }
-
-    require('luasnip.loaders.from_vscode').lazy_load()
-    require('luasnip.loaders.from_lua').lazy_load { paths = '~/.config/nvim/snippets' }
 
     ls.config.setup {}
 
@@ -89,56 +68,13 @@ return {
         completion = cmp.config.window.bordered(border_opts),
         documentation = cmp.config.window.bordered(border_opts),
       },
-      formatting = {
-        fields = { 'kind', 'abbr', 'menu' },
-        format = lspkind.cmp_format {
-          before = function(entry, item)
-            if item.kind == 'Color' then
-              return require('cmp-tailwind-colors').format(entry, item)
-            end
-            return item
-          end,
-        },
-      },
-      snippet = {
-        expand = function(args)
-          ls.lsp_expand(args.body)
-        end,
-      },
-      preselect = cmp.PreselectMode.None,
-      confirm_opts = {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-      },
       mapping = cmp.mapping.preset.insert {
-        ['<C-c>'] = function()
-          cmp.abort()
-          vim.g.cmp_disable = true
-        end,
+				['<C-c>'] = cmp.mapping.complete(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = confirm_mapping,
-        ['<Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif ls.expand_or_locally_jumpable() then
-            ls.expand_or_jump()
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif ls.locally_jumpable(-1) then
-            ls.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<C-y>'] = cmp.mapping.confirm({ select = false }),
       },
       sources = cmp.config.sources {
         { name = 'nvim_lsp', priority = 1000 },
@@ -154,34 +90,14 @@ return {
         },
         { name = 'treesitter', priority = 500 },
       },
+			-- configure lspkind for vs-code like pictograms in cmp
+			formatting = {
+				format = lspkind.cmp_format({
+					maxwidth = 50,
+					ellipsis_char = "...",
+				}),
+			},
     }
-
-    cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline {
-        ['<CR>'] = confirm_mapping,
-      },
-      sources = {
-        { name = 'buffer' },
-      },
-    })
-
-    cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline {
-        ['<CR>'] = confirm_mapping,
-      },
-      sources = cmp.config.sources({
-        { name = 'path' },
-      }, {
-        { name = 'cmdline' },
-      }),
-    })
-
-    cmp.event:on('menu_opened', function()
-      vim.b.copilot_suggestion_hidden = true
-    end)
-
-    cmp.event:on('menu_closed', function()
-      vim.b.copilot_suggestion_hidden = false
-    end)
   end,
 }
+

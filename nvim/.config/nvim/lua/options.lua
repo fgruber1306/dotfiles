@@ -1,6 +1,9 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Set netrw list style to be in tree format
+vim.cmd 'let g:netrw_liststyle = 3'
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -12,10 +15,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Don't show the mode, since it's already in the status line
-vim.opt.showmode = false
-
--- Don't show the mode, since it's already in the status line
-vim.opt.showmode = false
+-- vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -63,3 +63,11 @@ vim.opt.scrolloff = 10
 
 -- Set highlight on search
 vim.opt.hlsearch = true
+
+-- tabs & indentation
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+
+-- Disable line wrapping
+vim.opt.wrap = false
+

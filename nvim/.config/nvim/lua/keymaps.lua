@@ -25,6 +25,7 @@ vim.keymap.set('n', 'te', ':tabedit<Return>', opts)
 vim.keymap.set('n', 'td', ':tabclose<Return>', opts)
 vim.keymap.set('n', 'th', ':tabprev<Return>', opts)
 vim.keymap.set('n', 'tl', ':tabnext<Return>', opts)
+vim.keymap.set('n', 'to', ':tabnew % <CR>', opts)
 
 -- Focus cursor on screen after big movements
 vim.keymap.set({ 'n', 'v' }, '<C-f>', '<C-f>zz', opts)
@@ -51,6 +52,6 @@ vim.keymap.set({ 'n', 'v' }, '<S-Tab>', '<<')
 vim.keymap.set({ 'n', 'v' }, '<Tab>', '>>')
 
 -- Buffer mappings
-vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save' })
-vim.keymap.set('n', '<leader>W', '<cmd>noa w<cr>', { desc = 'Save (no autocommands)' })
-vim.keymap.set('n', '<leader>q', '<cmd>confirm q<cr>', { desc = 'Quit' })
+-- vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save' })
+-- vim.keymap.set('n', '<leader>W', '<cmd>noa w<cr>', { desc = 'Save (no autocommands)' })
+-- vim.keymap.set('n', '<leader>q', '<cmd>confirm q<cr>', { desc = 'Quit' })

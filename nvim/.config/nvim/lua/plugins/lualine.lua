@@ -3,6 +3,7 @@ return {
     'nvim-lualine/lualine.nvim',
     dependencies = {
       'f-person/git-blame.nvim',
+			'nvim-tree/nvim-web-devicons',
     },
     event = 'VeryLazy',
     opts = function(_, opts)
@@ -29,8 +30,8 @@ return {
       }
 
       opts.sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch' },
+        lualine_a = { },
+        lualine_b = { },
         lualine_c = { 'filename', require('utils.lualine').maximize_status },
         lualine_x = { require('utils.lualine').get_lsps, 'filetype' },
         lualine_y = { 'progress' },
@@ -41,3 +42,4 @@ return {
     end,
   },
 }
+

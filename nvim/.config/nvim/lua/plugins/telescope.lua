@@ -25,10 +25,41 @@ return {
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
+    local actions = require 'telescope.actions'
+
     require('telescope').setup {
-      extensions = {
-        ['ui-select'] = {
-          require('telescope.themes').get_dropdown(),
+      defaults = {
+        buffer_previewer_maker = require('utils.telescope').previewer_maker,
+        path_display = { 'truncate' },
+        preview = {
+          mime_hook = function(filepath, bufnr, opts)
+            local is_image = function(path)
+              local image_extensions = { 'gif', 'png', 'jpg', 'jpeg' }
+              local split_path = vim.split(path:lower(), '.', { plain = true })
+              local extension = split_path[#split_path]
+
+              return vim.tbl_contains(image_extensions, extension)
+            end
+
+            if is_image(filepath) then
+              local term = vim.api.nvim_open_term(bufnr, {})
+              local function send_output(_, data, _)
+                for _, d in ipairs(data) do
+                  vim.api.nvim_chan_send(term, d .. '\r\n')
+                end
+              end
+
+              vim.fn.jobstart({ 'catimg', filepath }, { on_stdout = send_output, stdout_buffered = true, pty = true })
+            else
+              require('telescope.previewers.utils').set_preview_message(bufnr, opts.winid, 'Binary cannot be previewed')
+            end
+          end,
+        },
+        prompt_prefix = string.format('%s ', ' '),
+        selection_caret = string.format('%s ', '❯'),
+        file_ignore_patterns = {
+          'node_modules/',
+          '.git/',
         },
       },
     }
@@ -37,34 +68,195 @@ return {
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
 
-    local builtin = require 'telescope.builtin'
-    vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-    vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-    vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-    vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-    vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-    vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    local handlers = {
+      ['textDocument/declaration'] = require('utils.telescope').location_handler 'LSP Declarations',
+      ['textDocument/definition'] = require('utils.telescope').location_handler 'LSP Definitions',
+      ['textDocument/implementation'] = require('utils.telescope').location_handler 'LSP Implementations',
+      ['textDocument/typeDefinition'] = require('utils.telescope').location_handler 'LSP Type Definitions',
+      ['textDocument/references'] = require('utils.telescope').location_handler 'LSP References',
+    }
 
-    vim.keymap.set('n', '<leader>/', function()
-      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
-      })
-    end, { desc = '[/] Fuzzily search in current buffer' })
-
-    vim.keymap.set('n', '<leader>s/', function()
-      builtin.live_grep {
-        grep_open_files = true,
-        prompt_title = 'Live Grep in Open Files',
-      }
-    end, { desc = '[S]earch [/] in Open Files' })
-
-    vim.keymap.set('n', '<leader>sn', function()
-      builtin.find_files { cwd = vim.fn.stdpath 'config' }
-    end, { desc = '[S]earch [N]eovim files' })
+    for req, handler in pairs(handlers) do
+      vim.lsp.handlers[req] = handler
+    end
   end,
+  keys = {
+    {
+      '<leader>fc',
+      mode = 'n',
+      function()
+        require('telescope.builtin').git_commits()
+      end,
+      desc = 'Find commits',
+    },
+    {
+      '<leader>fb',
+      mode = 'n',
+      function()
+        require('telescope.builtin').git_branches()
+      end,
+      desc = 'Find branches',
+    },
+    {
+      '<leader>fd',
+      mode = 'n',
+      function()
+        require('telescope.builtin').diagnostics()
+      end,
+      desc = 'Find diagnostics',
+    },
+    {
+      '<leader>fg',
+      mode = 'n',
+      function()
+        require('telescope.builtin').git_files()
+      end,
+      desc = 'Find git files',
+    },
+    {
+      '<leader>fG',
+      mode = 'n',
+      function()
+        require('telescope.builtin').git_status()
+      end,
+      desc = 'Find modified files',
+    },
+    {
+      '<leader>fj',
+      mode = 'n',
+      function()
+        require('telescope.builtin').jumplist()
+      end,
+      desc = 'Jumplist',
+    },
+    {
+      '<leader>fm',
+      mode = 'n',
+      function()
+        require('telescope.builtin').man_pages()
+      end,
+      desc = 'Find man pages',
+    },
+    {
+      '<leader>fs',
+      mode = 'n',
+      function()
+        require('telescope.builtin').grep_string()
+      end,
+      desc = 'Find word under cursor',
+    },
+    {
+      '<leader>fS',
+      mode = 'n',
+      function()
+        require('telescope.builtin').lsp_document_symbols()
+      end,
+      desc = 'Document symbols',
+    },
+    {
+      '<leader>fD',
+      mode = 'n',
+      function()
+        require('telescope.builtin').lsp_dynamic_workspace_symbols()
+      end,
+      desc = 'Workspace symbols',
+    },
+    {
+      '<leader>fo',
+      mode = 'n',
+      function()
+        require('telescope.builtin').oldfiles()
+      end,
+      desc = 'Find recently opened files',
+    },
+    {
+      '<leader>fh',
+      mode = 'n',
+      function()
+        require('telescope.builtin').marks()
+      end,
+      desc = 'Find marks',
+    },
+    {
+      '<leader>f<CR>',
+      mode = 'n',
+      function()
+        require('telescope.builtin').resume()
+      end,
+      desc = 'Resume last search',
+    },
+    {
+      '<leader><space>',
+      mode = 'n',
+      function()
+        require('utils.telescope').buffers()
+      end,
+      desc = 'Find existing buffers',
+    },
+    {
+      '<leader>ff',
+      mode = 'n',
+      function()
+        require('utils.telescope').dir_picker({
+          show_preview = true,
+          hidden = false,
+          no_ignore = false,
+        }, require('telescope.builtin').find_files, false)
+      end,
+      desc = 'Find files',
+    },
+    {
+      '<leader>fF',
+      mode = 'n',
+      function()
+        require('utils.telescope').dir_picker({
+          show_preview = true,
+          hidden = true,
+          no_ignore = true,
+          no_ignore_parent = true,
+        }, require('telescope.builtin').find_files, false)
+      end,
+      desc = 'Find all files',
+    },
+    {
+      '<leader>fw',
+      mode = 'n',
+      function()
+        require('utils.telescope').dir_picker({
+          show_preview = true,
+          hidden = false,
+          no_ignore = false,
+        }, require('telescope.builtin').live_grep, true)
+      end,
+      desc = 'Search in files',
+    },
+    {
+      '<leader>fW',
+      mode = 'n',
+      function()
+        require('utils.telescope').dir_picker({
+          show_preview = true,
+          hidden = true,
+          no_ignore = true,
+          no_ignore_parent = true,
+          additional_args = function(args)
+            return vim.list_extend(args, { '--hidden', '--no-ignore' })
+          end,
+        }, require('telescope.builtin').live_grep, true)
+      end,
+      desc = 'Search in all files',
+    },
+    {
+      '<leader>/',
+      mode = 'n',
+      function()
+        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 10,
+          previewer = false,
+        })
+      end,
+      desc = 'Fuzzily search in current buffer',
+    },
+  },
 }
+
