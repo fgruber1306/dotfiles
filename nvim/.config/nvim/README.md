@@ -6,4 +6,5 @@
 - catimg
 - gawk
 - lazygit
+- tiktoken_core
 
