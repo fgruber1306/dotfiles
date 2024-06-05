@@ -1,5 +1,6 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
+  event = 'VeryLazy',
   dependencies = {
     'nvim-lua/plenary.nvim',
     {
@@ -21,24 +22,66 @@ return {
     },
     'MunifTanjim/nui.nvim',
   },
+  keys = {
+    { '<leader>e', mode = 'n', '<cmd>Neotree current toggle reveal float<cr>', desc = 'Toggle NeoTree' },
+    { '<leader>E', mode = 'n', '<cmd>Neotree current toggle reveal<cr>', desc = 'Toggle NeoTree' },
+  },
   opts = {
+    close_if_last_window = true,
+    popup_border_style = 'single',
+    enable_git_status = true,
+    enable_modified_markers = true,
+    enable_diagnostics = true,
+    sort_case_insensitive = true,
+    default_component_configs = {
+      indent = {
+        with_markers = true,
+        with_expanders = true,
+      },
+      modified = {
+        symbol = ' ',
+        highlight = 'NeoTreeModified',
+      },
+      icon = {
+        folder_closed = '',
+        folder_open = '',
+        folder_empty = '',
+        folder_empty_open = '',
+      },
+      git_status = {
+        symbols = {
+          -- Change type
+          added = '',
+          deleted = '',
+          modified = '',
+          renamed = '',
+          -- Status type
+          untracked = '',
+          ignored = '',
+          unstaged = '',
+          staged = '',
+          conflict = '',
+        },
+      },
+    },
+    window = {
+      position = 'float',
+      width = 35,
+    },
     filesystem = {
+      use_libuv_file_watcher = true,
       filtered_items = {
-        visible = true,
-        show_hidden_count = true,
         hide_dotfiles = false,
         hide_gitignored = false,
         hide_by_name = {
-          -- '.git',
-          -- '.DS_Store',
-          -- 'thumbs.db',
+          'node_modules',
         },
-        never_show = {},
+        never_show = {
+          '.DS_Store',
+          'thumbs.db',
+        },
       },
     },
-  },
-	keys = {
-    { '<leader>e', mode = 'n', '<cmd>Neotree toggle reveal<cr>', desc = 'Toggle NeoTree' }
   },
 }
 
