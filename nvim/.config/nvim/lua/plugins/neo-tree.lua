@@ -38,7 +38,7 @@ return {
     },
   },
 	keys = {
-    { '<leader>e', mode = 'n', '<cmd>Neotree<cr>', desc = 'Toggle NeoTree' }
+    { '<leader>e', mode = 'n', '<cmd>Neotree toggle reveal<cr>', desc = 'Toggle NeoTree' }
   },
 }
 
