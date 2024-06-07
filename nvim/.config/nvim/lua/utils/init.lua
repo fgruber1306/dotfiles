@@ -56,4 +56,3 @@ function M.trim_empty_lines()
 end
 
 return M
-
