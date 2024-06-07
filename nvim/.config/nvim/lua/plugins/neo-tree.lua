@@ -21,6 +21,7 @@ return {
       },
     },
     'MunifTanjim/nui.nvim',
+    '3rd/image.nvim',
   },
   keys = {
     { '<leader>e', mode = 'n', '<cmd>Neotree current toggle reveal float<cr>', desc = 'Toggle NeoTree' },
@@ -67,6 +68,10 @@ return {
     window = {
       position = 'float',
       width = 35,
+      mappings = {
+        ['P'] = { "toggle_preview", config = { use_float = true, use_image_nvim = true }, -- TODO: Wait until core bug is fixed
+        },
+      },
     },
     filesystem = {
       use_libuv_file_watcher = true,
