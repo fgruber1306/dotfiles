@@ -4,21 +4,34 @@
 local opts = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap('n', '<C-z>', '<Nop>', { noremap = true, silent = true }) -- We don't stan this one
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous Diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next Diagnostic message' })
+vim.keymap.set('n', '<leader>m', vim.diagnostic.open_float, { desc = 'Show diagnostic Error messages' })
 
 -- Exit terminal mode in the builtin terminal
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Select all
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G')
+
+-- automatic indenting when entering insert mode
+vim.keymap.set({ 'n' }, 'i', function ()
+  if #vim.fn.getline('.') == 0 then
+    return [["_cc]]
+  else
+    return 'i'
+  end
+end, { expr = true, desc = 'Enter insert mode' })
+
+-- Mappings for moving lines in visual mode
+-- vim.keymap.set('v', '<S-J>', ":m '>+1<CR>gv=gv", { desc = 'Move line downwards', silent = true })
+-- vim.keymap.set('v', '<S-K>', ":m '<-2<CR>gv=gv", { desc = 'Move line upwards', silent = true })
 
 -- New tab
 vim.keymap.set('n', 'te', ':tabedit<Return>', opts)
@@ -55,3 +68,4 @@ vim.keymap.set({ 'n', 'v' }, '<Tab>', '>>')
 -- vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save' })
 -- vim.keymap.set('n', '<leader>W', '<cmd>noa w<cr>', { desc = 'Save (no autocommands)' })
 -- vim.keymap.set('n', '<leader>q', '<cmd>confirm q<cr>', { desc = 'Quit' })
+
