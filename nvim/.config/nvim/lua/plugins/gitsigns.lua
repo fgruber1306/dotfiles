@@ -1,15 +1,6 @@
 return {
   'lewis6991/gitsigns.nvim',
   event = 'BufEnter',
-  opts = {
-    signs = {
-      add = { text = '+' },
-      change = { text = '~' },
-      delete = { text = '_' },
-      topdelete = { text = '‾' },
-      changedelete = { text = '~' },
-    },
-  },
   keys = {
     {
       '<leader>hv',
@@ -84,5 +75,14 @@ return {
       desc = 'Go to previous hunk',
     },
     { 'ih', mode = { 'o', 'x' }, ':<C-U>Gitsigns select_hunk<CR>', desc = 'inner hunk' },
+  },
+  opts = {
+    signs = {
+      add = { text = '+' },
+      change = { text = '~' },
+      delete = { text = '_' },
+      topdelete = { text = '‾' },
+      changedelete = { text = '~' },
+    },
   },
 }
