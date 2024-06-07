@@ -25,8 +25,6 @@ return {
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
-    local actions = require 'telescope.actions'
-
     require('telescope').setup {
       defaults = {
         buffer_previewer_maker = require('utils.telescope').previewer_maker,
@@ -259,4 +257,3 @@ return {
     },
   },
 }
-
