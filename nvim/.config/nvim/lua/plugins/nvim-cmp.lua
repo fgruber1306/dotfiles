@@ -4,7 +4,6 @@ return {
   dependencies = {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
-
     -- Snippet Engine & its associated nvim-cmp source
     {
       'L3MON4D3/LuaSnip',
@@ -19,15 +18,6 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     {
       'onsails/lspkind.nvim',
-      config = function()
-        require('lspkind').init {
-          symbol_map = {
-            Color = '󰌁',
-            Copilot = '',
-            String = '',
-          },
-        }
-      end,
     },
 
     -- Adds a number of user-friendly snippets
@@ -44,12 +34,6 @@ return {
 
     -- Loads vscode style snippets from installed plugins (e.g. friendly-snippets)
     require('luasnip.loaders.from_vscode').lazy_load()
-
-    -- Adjust border
-    local border_opts = {
-      border = 'single',
-      winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
-    }
 
     ls.config.setup {
       history = false,
@@ -75,6 +59,7 @@ return {
     cmp.setup {
       enabled = function()
         local buf = vim.api.nvim_get_current_buf()
+        ---@diagnostic disable-next-line: deprecated
         local buf_filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
         local filetype_denylist = { 'neo-tree', 'neo-tree-popup', 'TelescopePrompt' }
 
@@ -88,8 +73,6 @@ return {
         completeopt = 'menu,menuone,preview,noselect',
       },
       window = {
-        completion = cmp.config.window.bordered(border_opts),
-        documentation = cmp.config.window.bordered(border_opts),
       },
       snippet = {
         expand = function(args)
@@ -97,12 +80,13 @@ return {
         end,
       },
       mapping = cmp.mapping.preset.insert {
-        -- TODO: ['<C-c>'] = cmp.mapping.complete(), DOES NOT WORK
+        ['<C-l>'] = cmp.mapping.complete(),
+        ['<C-h>'] = cmp.mapping.close(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        ['<C-y'] = cmp.mapping.confirm { select = false },
+        ['<C-y>'] = cmp.mapping.confirm { select = false },
       },
       sources = cmp.config.sources {
         { name = 'nvim_lsp', priority = 1000 },
@@ -119,6 +103,7 @@ return {
         { name = 'treesitter', priority = 500 },
       },
       -- configure lspkind for vs-code like pictograms in cmp
+      ---@diagnostic disable-next-line: missing-fields
       formatting = {
         format = lspkind.cmp_format {
           maxwidth = 50,
@@ -126,5 +111,23 @@ return {
         },
       },
     }
+    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline({ '/', '?' }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' },
+      },
+    })
+
+    -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' },
+      }, {
+        { name = 'cmdline' },
+      }),
+      matching = { disallow_symbol_nonprefix_matching = false },
+    })
   end,
 }
