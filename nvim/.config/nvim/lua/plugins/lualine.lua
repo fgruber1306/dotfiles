@@ -3,7 +3,7 @@ return {
     'nvim-lualine/lualine.nvim',
     dependencies = {
       'f-person/git-blame.nvim',
-			'nvim-tree/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
     },
     event = 'VeryLazy',
     opts = function(_, opts)
@@ -11,9 +11,8 @@ return {
 
       opts.options = {
         icons_enabled = true,
-        theme = 'catppuccin',
         component_separators = { left = ' ', right = ' ' },
-        section_separators = { left = '', right = '' },
+        section_separators = { left = ' ', right = ' ' },
         always_divide_middle = true,
       }
 
@@ -30,16 +29,15 @@ return {
       }
 
       opts.sections = {
-        lualine_a = { },
-        lualine_b = { },
+        lualine_a = {},
+        lualine_b = {},
         lualine_c = { 'filename', require('utils.lualine').maximize_status },
-        lualine_x = { require('utils.lualine').get_lsps, 'filetype' },
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' },
+        lualine_x = { require('utils.lualine').get_lsps, 'filetype', 'progress', 'location' },
+        lualine_y = {},
+        lualine_z = {},
       }
 
       return opts
     end,
   },
 }
-
