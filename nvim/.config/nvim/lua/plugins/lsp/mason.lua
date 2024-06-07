@@ -33,7 +33,6 @@ return {
         'tailwindcss',
         'lua_ls',
         'intelephense',
-        'eslint_d', -- js linter
       },
       automatic_installation = 'true',
     }
@@ -42,8 +41,9 @@ return {
       ensure_installed = {
         'prettier', -- prettier formatter
         'stylua', -- lua formatter
+        'php-cs-fixer', -- php formatter
+        'eslint_d', -- js linter
       },
     }
   end,
 }
-

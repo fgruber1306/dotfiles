@@ -1,6 +1,24 @@
 return {
   'stevearc/conform.nvim',
+  dependencies = {
+    { 'neovim/nvim-lspconfig' },
+    { 'nvim-lua/plenary.nvim' },
+    { 'williamboman/mason.nvim' },
+  },
   event = { 'BufReadPre', 'BufNewFile' },
+  keys = {
+    {
+      '<leader>bf',
+      function()
+        require('conform').format {
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 1001,
+        }
+      end,
+      { desc = 'Format file or range (in visual mode)' },
+    },
+  },
   config = function()
     local conform = require 'conform'
 
@@ -12,11 +30,12 @@ return {
         typescriptreact = { 'prettier' },
         css = { 'prettier' },
         html = { 'prettier' },
+        phtml = { 'prettier' },
         json = { 'prettier' },
         yaml = { 'prettier' },
         markdown = { 'prettier' },
         lua = { 'stylua' },
-        php = { 'easy-coding-standard' },
+        php = { 'php_cs_fixer' },
       },
     }
 
@@ -29,4 +48,3 @@ return {
     end, { desc = 'Format file or range (in visual mode)' })
   end,
 }
-
