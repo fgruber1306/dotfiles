@@ -53,7 +53,7 @@ function M.trim_empty_lines()
   if last_nonblank < n_lines then
     vim.api.nvim_buf_set_lines(0, last_nonblank, n_lines, true, {})
   end
-  vim.api.nvim_buf_set_lines(0, last_nonblank, last_nonblank, false, { '' })
 end
 
 return M
+
