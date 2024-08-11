@@ -184,7 +184,7 @@ return {
       desc = 'Resume last search',
     },
     {
-      '<leader><space>',
+      '<leader>b',
       mode = 'n',
       function()
         require('utils.telescope').buffers()
