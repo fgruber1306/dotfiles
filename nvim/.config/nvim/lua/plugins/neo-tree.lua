@@ -24,8 +24,9 @@ return {
     '3rd/image.nvim',
   },
   keys = {
-    { '<leader>e', mode = 'n', '<cmd>Neotree current toggle reveal float<cr>', desc = 'Toggle NeoTree' },
-    { '<leader>E', mode = 'n', '<cmd>Neotree current toggle reveal<cr>', desc = 'Toggle NeoTree' },
+    -- { '<leader>E', mode = 'n', '<cmd>Neotree current toggle reveal<cr>', desc = 'Toggle NeoTree' },
+    { '<leader>e', mode = 'n', '<cmd>Neotree current toggle reveal left<cr>', desc = 'Toggle NeoTree left' },
+    { '<leader>E', mode = 'n', '<cmd>Neotree current toggle reveal float<cr>', desc = 'Toggle NeoTree' },
   },
   opts = {
     close_if_last_window = true,
