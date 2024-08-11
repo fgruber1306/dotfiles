@@ -6,19 +6,6 @@ return {
     { 'williamboman/mason.nvim' },
   },
   event = { 'BufReadPre', 'BufNewFile' },
-  keys = {
-    {
-      '<leader>bf',
-      function()
-        require('conform').format {
-          lsp_fallback = true,
-          async = false,
-          timeout_ms = 1001,
-        }
-      end,
-      { desc = 'Format file or range (in visual mode)' },
-    },
-  },
   config = function()
     local conform = require 'conform'
 
@@ -39,12 +26,18 @@ return {
       },
     }
 
-    vim.keymap.set({ 'n', 'v', 'x' }, '<leader>bf', function()
-      conform.format {
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 1001,
-      }
-    end, { desc = 'Format file or range (in visual mode)' })
+		local range_formatting = function()
+				local start_row, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
+				local end_row, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
+				vim.lsp.buf.format({
+						range = {
+								["start"] = { start_row, 0 },
+								["end"] = { end_row, 0 },
+						},
+						async = true,
+				})
+		end
+
+		vim.keymap.set("v", "<leader>bf", range_formatting, { desc = "Range Formatting" })
   end,
 }
