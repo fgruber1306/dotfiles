@@ -1,4 +1,4 @@
-# Place a copy of this config to ~/.aerospace.toml
+#https://www-limesoda-com.ddev.site/ Place a copy of this config to ~/.aerospace.toml
 # After that, you can edit ~/.aerospace.toml to your liking
 
 # It's not necessary to copy all keys to your config.
@@ -114,7 +114,9 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
+alt-a = 'workspace A'
 alt-b = 'workspace B'
+alt-c = 'workspace C'
 alt-f = 'workspace F'
 alt-m = 'workspace M'
 alt-r = 'workspace R'
@@ -131,7 +133,9 @@ alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-a = 'move-node-to-workspace A'
 alt-shift-b = 'move-node-to-workspace B'
+alt-shift-c = 'move-node-to-workspace C'
 alt-shift-f = 'move-node-to-workspace F'
 alt-shift-m = 'move-node-to-workspace M'
 alt-shift-r = 'move-node-to-workspace R'
@@ -163,15 +167,23 @@ alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
 [[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
 if.app-id = 'com.google.chrome'
 run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace C'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace F'
 
 [[on-window-detected]]
-if.app-id = 'com.spotify.client'
+if.app-id = 'com.readdle.smartemail-Mac'
 run = 'move-node-to-workspace M'
 
 [[on-window-detected]]
@@ -179,7 +191,7 @@ if.app-id = 'com.apple.reminders'
 run = 'move-node-to-workspace R'
 
 [[on-window-detected]]
-if.app-id = 'com.tinyspeck.slackmacgap'
+if.app-id = 'com.spotify.client'
 run = 'move-node-to-workspace S'
 
 [[on-window-detected]]
