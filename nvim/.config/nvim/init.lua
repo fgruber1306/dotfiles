@@ -18,6 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   { import = 'plugins.lsp' },
+	{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
   {
     import = 'plugins',
     checker = {
@@ -47,4 +48,3 @@ require('lazy').setup({
     { border = 'rounded' },
   },
 })
-
