@@ -11,6 +11,7 @@ config.color_scheme_dirs = { "~/.config/wezterm/colorschemes" }
 config.window_background_opacity = 0.95
 config.dpi = 144.0
 config.enable_tab_bar = false
+config.font = wezterm.font("GeistMono Nerd Font")
 config.font_size = 8.5
 config.window_decorations = "RESIZE"
 config.window_padding = {
