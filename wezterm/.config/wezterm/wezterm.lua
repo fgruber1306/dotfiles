@@ -8,10 +8,10 @@ end
 -- [[ appearance ]]
 config.color_scheme = "Tokyo Night Storm"
 config.color_scheme_dirs = { "~/.config/wezterm/colorschemes" }
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.7
 config.dpi = 144.0
 config.enable_tab_bar = false
-config.font = wezterm.font("GeistMono Nerd Font")
+config.font = wezterm.font("OverpassM Nerd Font Mono", { weight = "ExtraBold" })
 config.font_size = 8.5
 config.window_decorations = "RESIZE"
 config.window_padding = {

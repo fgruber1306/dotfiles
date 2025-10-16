@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(curl:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./build)",
+      "Read(./shared)"
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "0"
+  }
+}
