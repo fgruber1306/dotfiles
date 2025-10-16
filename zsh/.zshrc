@@ -75,7 +75,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search docker docker-compose yarn)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -163,8 +163,7 @@ export BAT_THEME="Catppuccin Mocha"
 
 # ----- Eza (better ls) -----
 
-alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
-alias lsp="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user"
+alias eza="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user"
 
 # ---- Zoxide (better cd) ----
 
