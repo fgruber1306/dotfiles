@@ -20,10 +20,12 @@ return {
     },
     formatters_by_ft = {
       lua = { 'stylua' },
-      html = { 'prettierd', 'prettier', stop_after_first = true },
-      css = { 'prettierd', 'prettier', stop_after_first = true },
-      javascript = { 'prettierd', 'prettier', stop_after_first = true },
-      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      svg = { 'prettier', stop_after_first = true },
+      json = { 'prettier', stop_after_first = true },
+      html = { 'prettier', stop_after_first = true },
+      css = { 'prettier', stop_after_first = true },
+      javascript = { 'prettier', stop_after_first = true },
+      typescript = { 'prettier', stop_after_first = true },
     },
   },
 }
